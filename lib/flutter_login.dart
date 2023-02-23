@@ -11,7 +11,10 @@ import './options.dart';
 
 class LoginWidget extends StatelessWidget {
   final Function? onLoginChange;
-  const LoginWidget({super.key, this.onLoginChange});
+
+  final Map<String, dynamic>? override_options;
+
+  const LoginWidget({super.key, this.onLoginChange, this.override_options});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +22,7 @@ class LoginWidget extends StatelessWidget {
     AuthController authController = Get.find<AuthController>();
 
     return MyCustomForm(
-      formItems: options,
+      formItems: override_options ?? options,
       url: "o/token/",
       submitButtonText: "Login",
       submitButtonPreText: "",
