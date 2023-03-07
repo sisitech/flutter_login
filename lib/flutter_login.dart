@@ -100,7 +100,7 @@ class LoginWidget extends StatelessWidget {
         dprint(res);
         dprint("creds");
         dprint(authController.loginForm.value);
-
+        await authController.saveOfflineCreds();
         await authController.getSaveProfile(res);
         if (onLoginChange != null) {
           onLoginChange!(res);
