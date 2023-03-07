@@ -2,7 +2,10 @@ import 'package:example/options.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auth/flutter_auth_controller.dart';
 import 'package:flutter_login/flutter_login.dart';
+import 'package:flutter_login/login_utils.dart';
 import 'package:flutter_utils/models.dart';
+import 'package:flutter_utils/network_status/network_status_controller.dart';
+import 'package:flutter_utils/offline_http_cache/offline_http_cache.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
@@ -17,6 +20,9 @@ void main() async {
       grantType: "password",
       revokeTokenUrl: 'o/revoke_token/'));
   await GetStorage.init();
+  await GetStorage.init(offline_login_storage_container);
+  Get.put(NetworkStatusController());
+  Get.put(OfflineHttpCacheController());
   Get.lazyPut(() => AuthController());
   // StoreBinding();
   runApp(const MyApp());
@@ -71,6 +77,7 @@ class MyHomePage extends StatelessWidget {
                 HomePage(),
               ] else
                 LoginWidget(
+                  enableOfflineLogin: true,
                   override_options: options,
                 ),
             ],
@@ -91,9 +98,20 @@ class HomePage extends StatelessWidget {
         ElevatedButton(
           onPressed: logout,
           child: Text("Logout"),
+        ),
+        SizedBox(
+          height: 40,
+        ),
+        ElevatedButton(
+          onPressed: lock,
+          child: Text("Lock"),
         )
       ],
     );
+  }
+
+  lock() async {
+    await authController.lock();
   }
 
   logout() async {

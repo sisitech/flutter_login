@@ -11,15 +11,15 @@ const options = {
     "POST": {
       "username": {
         "type": "string",
-        "required": false,
+        "required": true,
         "read_only": false,
         "label": "Username",
         "max_length": 45,
-        "placeholder": "New School Code"
+        "placeholder": ""
       },
       "password": {
         "type": "string",
-        "required": false,
+        "required": true,
         "read_only": false,
         "label": "Password",
         "obscure": true,

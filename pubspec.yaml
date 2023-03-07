@@ -23,6 +23,8 @@ dependencies:
       url: git@github.com:sisitech/flutter-forms.git
 
   get: ^4.6.5
+  encrypt: ^5.0.1
+  get_storage: ^2.1.1
 
 dev_dependencies:
   flutter_test:

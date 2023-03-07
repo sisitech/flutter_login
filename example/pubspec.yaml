@@ -32,6 +32,9 @@ dependencies:
   flutter:
     sdk: flutter
 
+  flutter_login:
+    path: ../
+
   flutter_form:
     git:
       url: git@github.com:sisitech/flutter-forms.git
@@ -40,9 +43,9 @@ dependencies:
     git:
       url: git@github.com:sisitech/flutter_auth.git
 
-  flutter_login:
-    git:
-      url: git@github.com:sisitech/flutter_login.git
+  # flutter_login:
+  #   git:
+  #     url: git@github.com:sisitech/flutter_login.git
 
   flutter_utils:
     git:
