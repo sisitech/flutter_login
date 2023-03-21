@@ -76,13 +76,17 @@ class LoginWidget extends StatelessWidget {
       //   "username": "micha@sisitech.com",
       //   "password": "mm",
       // },
+      handleErrors: (value) {
+        dprint(value);
+        return "Your password might be wrong".tr;
+      },
       onOfflineSuccess: !enableOfflineLogin
           ? null
           : (res) async {
               dprint("Login offline successful");
               await authController.unLock();
               if (onLoginChange != null) {
-                onLoginChange!(res);
+                await onLoginChange!(res);
               }
             },
       contentType: ContentType.form_url_encoded,
@@ -105,7 +109,7 @@ class LoginWidget extends StatelessWidget {
         }
         await authController.getSaveProfile(res);
         if (onLoginChange != null) {
-          onLoginChange!(res);
+          await onLoginChange!(res);
         }
         return null;
       },
