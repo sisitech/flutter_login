@@ -78,7 +78,10 @@ class LoginWidget extends StatelessWidget {
       // },
       handleErrors: (value) {
         dprint(value);
-        return "Your password might be wrong".tr;
+        if (value != null) {
+          return "Your pformassword might be wrong".tr;
+        }
+        return null;
       },
       onOfflineSuccess: !enableOfflineLogin
           ? null
@@ -117,7 +120,8 @@ class LoginWidget extends StatelessWidget {
         ["username"],
         ["password"]
       ],
-      formTitle: "Signup",
+      formTitle: "Login".tr,
+      name: "Login",
     );
   }
 }
