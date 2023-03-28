@@ -29,6 +29,7 @@ class LoginWidget extends StatelessWidget {
     APIConfig config = Get.find<APIConfig>();
     AuthController authController = Get.find<AuthController>();
     Map<String, dynamic>? offlineCred;
+
     return MyCustomForm(
       formItems: override_options ?? options,
       url: "o/token/",
@@ -120,7 +121,7 @@ class LoginWidget extends StatelessWidget {
         ["username"],
         ["password"]
       ],
-      formTitle: "Login".tr,
+      // formTitle: "",
       name: "Login",
     );
   }
