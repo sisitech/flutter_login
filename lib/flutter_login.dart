@@ -80,7 +80,7 @@ class LoginWidget extends StatelessWidget {
       handleErrors: (value) {
         dprint(value);
         if (value != null) {
-          return "Your pformassword might be wrong".tr;
+          return "Your password might be wrong".tr;
         }
         return null;
       },
