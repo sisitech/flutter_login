@@ -33,11 +33,11 @@ class LoginWidget extends StatelessWidget {
     return MyCustomForm(
       formItems: override_options ?? options,
       url: "o/token/",
-      submitButtonText: "Login".tr,
+      submitButtonText: "Login",
       submitButtonPreText: "",
       enableOfflineMode: enableOfflineLogin,
       enableOfflineSave: false,
-      loadingMessage: "Signing in...".tr,
+      loadingMessage: "Signing in...",
       validateOfflineData: !enableOfflineLogin
           ? null
           : (data) async {
