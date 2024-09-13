@@ -9,6 +9,7 @@ import 'package:flutter_login/login_utils.dart';
 import 'package:flutter_utils/flutter_utils.dart';
 import 'package:flutter_utils/models.dart';
 import 'package:flutter_utils/text_view/text_view_extensions.dart';
+import 'package:flutter_utils/utils/functions.dart';
 import 'package:get/get.dart';
 import './options.dart';
 
@@ -28,6 +29,7 @@ class LoginWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     APIConfig config = Get.find<APIConfig>();
     AuthController authController = Get.find<AuthController>();
+    // MixPanelController authController = Get.find<MixPanelController>();
     Map<String, dynamic>? offlineCred;
 
     return MyCustomForm(
@@ -92,6 +94,7 @@ class LoginWidget extends StatelessWidget {
               if (onLoginChange != null) {
                 await onLoginChange!(res);
               }
+              mixpanelLogin();
             },
       contentType: ContentType.form_url_encoded,
       extraFields: {
@@ -115,6 +118,7 @@ class LoginWidget extends StatelessWidget {
         if (onLoginChange != null) {
           await onLoginChange!(res);
         }
+        mixpanelLogin();
         return null;
       },
       formGroupOrder: const [

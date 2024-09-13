@@ -1,3 +1,4 @@
+import 'package:mixpanel_flutter/mixpanel_flutter.dart';
 import 'package:example/options.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auth/flutter_auth_controller.dart';
@@ -25,6 +26,7 @@ void main() async {
   Get.put(OfflineHttpCacheController());
   Get.lazyPut(() => AuthController());
   // StoreBinding();
+  // WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 

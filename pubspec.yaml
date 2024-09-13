@@ -21,10 +21,22 @@ dependencies:
   flutter_form:
     git:
       url: git@github.com:sisitech/flutter-forms.git
+  
+dependency_overrides:
+  flutter_utils:
+    git:
+      url: git@github.com:sisitech/flutter_utils.git
+      ref: 468c354
+  
+  flutter_form:
+    git:
+      url: git@github.com:sisitech/flutter-forms.git
+      ref: 1912fbd
 
   get: ^4.6.5
   encrypt: ^5.0.1
   get_storage: ^2.1.1
+  mixpanel_flutter: ^2.2.0
 
 dev_dependencies:
   flutter_test:
