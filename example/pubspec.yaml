@@ -43,10 +43,6 @@ dependencies:
     git:
       url: git@github.com:sisitech/flutter_auth.git
 
-  # flutter_login:
-  #   git:
-  #     url: git@github.com:sisitech/flutter_login.git
-
   flutter_utils:
     git:
       url: git@github.com:sisitech/flutter_utils.git
@@ -57,6 +53,24 @@ dependencies:
   get: ^4.6.5
   get_storage: ^2.0.3
 
+dependency_overrides:
+  intl: ^0.19.0
+  win32: ^5.5.4
+  workmanager: 0.5.2
+
+  flutter_utils:
+    git:
+      url: git@github.com:sisitech/flutter_utils.git
+      ref: "b68a85f"
+
+  flutter_auth:
+    git:
+      url: git@github.com:sisitech/flutter_auth.git
+      ref: "67872f9"
+  flutter_form:
+    git:
+      url: git@github.com:sisitech/flutter-forms.git
+      ref: "68aa594"
 dev_dependencies:
   flutter_test:
     sdk: flutter

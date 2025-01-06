@@ -1,6 +1,5 @@
-package com.example.example
+package com.sisitech.login_example
 
 import io.flutter.embedding.android.FlutterActivity
 
-class MainActivity: FlutterActivity() {
-}
+class MainActivity: FlutterActivity()
