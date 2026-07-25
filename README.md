@@ -223,3 +223,64 @@ GetMaterialApp(
 - [flutter_utils](https://github.com/sisitech/flutter_utils) - API configuration, network utilities, and helpers
 - [get](https://pub.dev/packages/get) - State management and dependency injection
 - [get_storage](https://pub.dev/packages/get_storage) - Local storage for credentials and tokens
+
+## Google sign-in
+
+Opt-in. `LoginWidget` renders the credential form only, unless you enable a social provider:
+
+```dart
+LoginWidget(
+  enableGoogleSignIn: true,
+  googleServerClientId: '<web-client-id>.apps.googleusercontent.com',
+  googleIcon: SvgPicture.asset('assets/google.svg'),
+  onLoginChange: (res) async { /* ... */ },
+)
+```
+
+Set `socialOnly: true` to hide the username/password form entirely, for apps whose sign-in is
+social-only.
+
+| Parameter | Purpose |
+|---|---|
+| `enableGoogleSignIn` | Shows the button. Off by default. |
+| `googleServerClientId` | **Required.** The *web* OAuth client id — the backend needs a token minted for that audience, so it is needed on every platform. |
+| `googleClientId` | Platform client id. Needed on iOS/macOS unless `GIDClientID` is in `Info.plist`. |
+| `googleSigninPath` | Backend path. Defaults to `api/v1/users/google-signin/`. |
+| `googleExtraBody` | Extra POST fields, e.g. `{'is_vet': true}`. |
+| `googleIcon` | Your own Google mark. Not defaulted — this package does not bundle Google's trademarked logo. |
+| `socialOnly` | Render only the social button. |
+
+### Backend contract
+
+`POST <googleSigninPath>` with `{"token": "<google access token>", ...googleExtraBody}`. The
+`token` is the **OAuth access token**, not the id token — the server is expected to verify it by
+calling Google's `oauth2/v3/userinfo` with it as a bearer.
+
+The response must be the same shape `o/token/` returns
+(`{access_token, refresh_token, token_type, expires_in}`), so it can be handed to
+`AuthController.getSaveProfile`.
+
+### Native setup
+
+Adding `google_sign_in` makes this a **plugin-bearing package**: every consumer inherits the
+setup below, even those that leave `enableGoogleSignIn` off.
+
+**Android** — `android/app/build.gradle.kts`:
+
+```kotlin
+implementation("androidx.credentials:credentials:1.3.0")
+implementation("androidx.credentials:credentials-play-services-auth:1.3.0")
+implementation("com.google.android.libraries.identity.googleid:googleid:1.1.1")
+```
+
+Also set `multiDexEnabled = true`, and register your `applicationId` + signing SHA-1 in the
+Google Cloud console. Android resolves the client from that SHA-1, not from `googleClientId`.
+
+**iOS/macOS** — add `GIDClientID` to `Info.plist` (or pass `googleClientId`) *and* register the
+reversed client id as a `CFBundleURLSchemes` entry. Without both, the flow fails at launch.
+
+### Cancellation
+
+Backing out of the account picker throws `GoogleSignInException(code: canceled)`. The controller
+treats it as a normal outcome and leaves `error` null, so nothing is shown — only real failures
+surface a message.

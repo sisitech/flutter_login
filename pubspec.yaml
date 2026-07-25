@@ -4,7 +4,8 @@ version: 0.0.1
 homepage: sisitech.com
 
 environment:
-  sdk: ">=2.18.5 <3.0.0"
+  # google_sign_in 7.x requires Dart 3.
+  sdk: ">=3.0.0 <4.0.0"
   flutter: ">=1.17.0"
 
 dependencies:
@@ -22,6 +23,12 @@ dependencies:
     git:
       url: git@github.com:sisitech/flutter-forms.git
 
+  # Social sign-in. Adding this makes flutter_login a *plugin-bearing* package: consumers
+  # inherit the Android credentials/googleid setup and the iOS URL-scheme requirement.
+  # The Google button is opt-in (LoginWidget.enableGoogleSignIn), so apps that do not use it
+  # are behaviourally unaffected.
+  google_sign_in: ^7.2.0
+
   get: ^4.6.5
   encrypt: ^5.0.1
   get_storage: ^2.1.1
@@ -30,6 +37,28 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
+
+# Only applied when this package is the ROOT (pub ignores dependency_overrides for
+# dependencies), so consumers are unaffected — this exists purely so `flutter test` works
+# here. Without it the Sisitech git deps resolve to HEAD, which currently pulls a
+# flutter-forms/fl_chart pair that no longer compiles (ThemeData.errorColor,
+# MediaQuery.boldTextOverride). These are the same refs sistch_stac pins.
+dependency_overrides:
+  intl: ^0.19.0
+  workmanager: ^0.9.0+3
+  flex_color_scheme: ^8.4.0
+  flutter_form:
+    git:
+      url: git@github.com:sisitech/flutter-forms.git
+      ref: 275375b
+  flutter_auth:
+    git:
+      url: git@github.com:sisitech/flutter_auth.git
+      ref: 1cf5053
+  flutter_utils:
+    git:
+      url: git@github.com:sisitech/flutter_utils.git
+      ref: 0e6b906
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
