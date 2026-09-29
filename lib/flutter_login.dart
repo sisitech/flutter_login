@@ -69,8 +69,8 @@ class LoginWidget extends StatelessWidget {
     final form = socialOnly ? null : _buildForm(context);
     if (!enableGoogleSignIn) return form!;
 
-    // Tagged by path+audience so two differently-configured login surfaces in one app do not
-    // share a controller.
+    // Tagged by path, audience and extra body so two differently-configured login surfaces in
+    // one app do not share a controller (see [GoogleSignInController.tagFor]).
     final google = Get.put(
       GoogleSignInController(
         serverClientId: googleServerClientId!,
@@ -78,7 +78,11 @@ class LoginWidget extends StatelessWidget {
         signinPath: googleSigninPath,
         extraBody: googleExtraBody,
       ),
-      tag: '$googleSigninPath::$googleServerClientId',
+      tag: GoogleSignInController.tagFor(
+        googleSigninPath,
+        googleServerClientId!,
+        googleExtraBody,
+      ),
     );
 
     final button = GoogleSignInButton(

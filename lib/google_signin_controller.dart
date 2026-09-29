@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter_auth/flutter_auth_controller.dart';
 import 'package:flutter_utils/flutter_utils.dart';
 import 'package:get/get.dart';
@@ -129,6 +131,19 @@ class GoogleSignInController extends GetxController {
   /// Backing out of the account picker throws
   /// `GoogleSignInException(code: canceled)`, which is a normal outcome rather than a
   /// failure: reporting it would show an error every time someone changes their mind.
+  /// The GetX tag a login surface registers its controller under.
+  ///
+  /// [extraBody] is part of it because it is part of the configuration: `Get.put` is
+  /// put-if-absent, so two surfaces differing only in their body — a Vet and a Farmer sign-in
+  /// sending `{'is_vet': true}` / `{'is_vet': false}` — would otherwise share whichever
+  /// controller was built first, and every later sign-in would POST that first body.
+  static String tagFor(
+    String signinPath,
+    String serverClientId,
+    Map<String, dynamic>? extraBody,
+  ) =>
+      '$signinPath::$serverClientId::${jsonEncode(extraBody ?? const {})}';
+
   static String? messageFor(Object error) {
     if (error is GoogleSignInException) {
       if (error.code == GoogleSignInExceptionCode.canceled) return null;

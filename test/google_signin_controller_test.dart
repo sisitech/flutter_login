@@ -43,6 +43,31 @@ void main() {
     });
   });
 
+  group('tagFor — one controller per configuration', () {
+    const path = 'api/v1/users/google-signin/';
+    const audience = 'web-client-id';
+
+    test('a different extra body gets its own controller', () {
+      // The Vet and Farmer sign-in sheets differ only here. Sharing a tag made whichever
+      // opened first decide `is_vet` for every sign-in after it.
+      expect(
+        GoogleSignInController.tagFor(path, audience, {'is_vet': true}),
+        isNot(GoogleSignInController.tagFor(path, audience, {'is_vet': false})),
+      );
+    });
+
+    test('the same configuration reuses its controller', () {
+      expect(
+        GoogleSignInController.tagFor(path, audience, {'is_vet': true}),
+        GoogleSignInController.tagFor(path, audience, {'is_vet': true}),
+      );
+      expect(
+        GoogleSignInController.tagFor(path, audience, null),
+        GoogleSignInController.tagFor(path, audience, const {}),
+      );
+    });
+  });
+
   group('serverError — reading DRF error bodies', () {
     test('reads the {"error": ...} shape the google-signin view returns', () {
       // e.g. {"error": "Invalid or expired access token"} from client/google.py.
