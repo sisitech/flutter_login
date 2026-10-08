@@ -28,6 +28,9 @@ dependencies:
   # The Google button is opt-in (LoginWidget.enableGoogleSignIn), so apps that do not use it
   # are behaviourally unaffected.
   google_sign_in: ^7.2.0
+  # Sign in with Apple, shown on iOS only (LoginWidget.enableAppleSignIn). On iOS it needs the
+  # com.apple.developer.applesignin entitlement; on Android the plugin is present but unused.
+  sign_in_with_apple: ^7.0.1
 
   get: ^4.6.5
   encrypt: ^5.0.1

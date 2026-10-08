@@ -284,3 +284,37 @@ reversed client id as a `CFBundleURLSchemes` entry. Without both, the flow fails
 Backing out of the account picker throws `GoogleSignInException(code: canceled)`. The controller
 treats it as a normal outcome and leaves `error` null, so nothing is shown — only real failures
 surface a message.
+
+## Sign in with Apple (iOS only)
+
+Opt-in, and shown **only on iOS** — on Android and the web `enableAppleSignIn` is ignored, so one
+screen definition serves both platforms. When both providers are on, Apple is drawn above Google.
+
+```dart
+LoginWidget(
+  enableGoogleSignIn: true,
+  googleServerClientId: '<web-client-id>.apps.googleusercontent.com',
+  enableAppleSignIn: true,
+  appleExtraBody: {'is_vet': true},
+  appleIcon: SvgPicture.asset('assets/apple.svg'),
+  socialOnly: true,
+  onLoginChange: (res) async { /* ... */ },
+)
+```
+
+| Parameter | Purpose |
+|---|---|
+| `enableAppleSignIn` | Shows the button on iOS. Off by default. |
+| `appleSigninPath` | Backend path. Defaults to `api/v1/users/apple-signin/`. |
+| `appleExtraBody` | Extra POST fields, e.g. `{'is_vet': true}`. |
+| `appleIcon` | Your own Apple mark. |
+
+`POST <appleSigninPath>` with `{"token": "<apple identity token>", "first_name", "last_name",
+...appleExtraBody}`. The server verifies the JWT against `https://appleid.apple.com/auth/keys`
+with the app's bundle id as audience. Apple sends the name **only on the first authorization**
+and never inside the token, so the names are forwarded when present and omitted otherwise. The
+response is the same shape as Google's.
+
+**iOS setup** — add `com.apple.developer.applesignin` = `[Default]` to the Runner entitlements
+and enable the *Sign in with Apple* capability on the App ID. Dismissing Apple's sheet throws
+`canceled`, which, as for Google, leaves `error` null.
